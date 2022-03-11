@@ -1,5 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
 import 'package:aws_flutter_app/auth_service.dart';
 import 'package:aws_flutter_app/camera_flow.dart';
 import 'package:aws_flutter_app/login_page.dart';
@@ -22,6 +24,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _amplify = Amplify;
   late AmplifyAuthCognito auth;
+  late AmplifyStorageS3 storageS3;
 
   final _authService = AuthService();
 
@@ -90,7 +93,10 @@ class _MyAppState extends State<MyApp> {
 
   void _configureAmplify() async {
     auth = AmplifyAuthCognito();
-    await _amplify.addPlugin(auth);
+    storageS3 = AmplifyStorageS3();
+    //await _amplify.addPlugin(auth);
+    //await _amplify.addPlugin(storageS3);
+    await _amplify.addPlugins([auth, storageS3]);
     try {
       await _amplify.configure(amplifyconfig);
       print('Successfully configured Amplify 🎉');
