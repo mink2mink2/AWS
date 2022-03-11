@@ -1,12 +1,15 @@
 import 'package:aws_flutter_app/auth_credentials.dart';
 import 'package:flutter/material.dart';
 
+import 'analytics_events.dart';
+import 'analytics_service.dart';
+
 class LoginPage extends StatefulWidget {
-  final ValueChanged<LoginCredentials>? didProvideCredentials;
+  final ValueChanged<LoginCredentials> didProvideCredentials;
 
   final VoidCallback? shouldShowSignUp;
 
-  LoginPage({Key? key, this.didProvideCredentials, this.shouldShowSignUp})
+  LoginPage({Key? key, required this.didProvideCredentials, this.shouldShowSignUp})
       : super(key: key);
 
   @override
@@ -81,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
     print('password: $password');
     final credentials =
         LoginCredentials(username: username, password: password);
-    widget.didProvideCredentials!(credentials);
+    widget.didProvideCredentials(credentials);
+    AnalyticsService.log(LoginEvent());
   }
 }
